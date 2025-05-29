@@ -32,10 +32,10 @@ public class Estudiante {
     @Column(name = "cursos_inscrito", nullable = false)
     private int cursoIncrito;
 
-    @Column(name = "ultima_inscripcion", nullable = false)
+    @Column(name = "ultima_inscripcion", nullable = true)
     private String ultimaInscripcion;
 
-    @Column(name = "saldo_disponible", nullable = false)
+    @Column(name = "saldo_disponible", nullable = true)
     private double saldoDisponible;
 
     @ManyToOne

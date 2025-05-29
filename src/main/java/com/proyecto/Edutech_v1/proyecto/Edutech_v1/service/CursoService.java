@@ -16,6 +16,7 @@ import jakarta.transaction.Transactional;
 @Transactional
 
 public class CursoService {
+    // El servicio maneja la lógica de negocio relacionada con los cursos
 
     @Autowired
     CursoRepository cursoRepository; // Inyección de dependencia del repositorio de cursos  
@@ -23,19 +24,31 @@ public class CursoService {
     public ArrayList<Curso> obtenerCursos() {
         return (ArrayList<Curso>) cursoRepository.findAll();
         // Llama al método findAll del repositorio para obtener todos los cursos
+        //metodo para obtener todos los cursos
+        // Devuelve una lista de cursos como un ArrayList
     }
 
     public void inscribirEstudiante(Curso curso, Estudiante estudiante) {
         if (curso.getEstudiantesInscritos() != null && estudiante != null && !curso.getEstudiantesInscritos().contains(estudiante)) {
             curso.getEstudiantesInscritos().add(estudiante);
             estudiante.setCurso(curso);
-            cursoRepository.save(curso); // Guarda los cambios en la base de datos
+            cursoRepository.save(curso);
         }
+
+        //metodo para inscribir un estudiante en un curso
+        // Verifica que el curso y el estudiante no sean nulos y que el estudiante no esté ya inscrito en el curso
     }
 
-    public Curso buscarPorId(Long id) {
-        Optional<Curso> cursoOpt = cursoRepository.findById(id);
-        return cursoOpt.orElse(null);
+    public Optional<Curso> buscarPorId(String id) {
+        return cursoRepository.findById(id);
+        //metodo para buscar un curso por su ID
+        // Llama al método findById del repositorio para buscar un curso por su ID
+    }
+
+    public Curso guardarCurso(Curso curso) {
+        return cursoRepository.save(curso);
+        //metodo para guardar un curso
+        // Llama al método save del repositorio para guardar un curso
     }
 
 }
