@@ -1,13 +1,14 @@
 package com.proyecto.Edutech_v1.proyecto.Edutech_v1.service;
 
-import jakarta.transaction.Transactional;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.proyecto.Edutech_v1.proyecto.Edutech_v1.model.Proveedor;
 import com.proyecto.Edutech_v1.proyecto.Edutech_v1.repository.ProveedorRepository;
 
-import java.util.List;
+import jakarta.transaction.Transactional;
 
 @Service
 @Transactional
@@ -36,8 +37,8 @@ public class ProveedorService {
     }
 
     public Proveedor obtenerProveedorPorId(Long id) {
-        return proveedorRepository.findById(id).orElseThrow(() -> 
-        new RuntimeException("Proveedor no encontrado con ID: " + id));
+        return proveedorRepository.findById(id).orElseThrow(()
+                -> new RuntimeException("Proveedor no encontrado con ID: " + id));
     }
 
     public List<Proveedor> listarTodos() {
@@ -64,7 +65,7 @@ public class ProveedorService {
         return proveedorRepository.findAvgTiempoRespuestaByServicio();
     }
 
-    public Proveedor actualizarCondicionesContrato(Long id, Double nuevasCondiciones) {
+    public Proveedor actualizarCondicionesContrato(Long id, String nuevasCondiciones) {
         Proveedor proveedor = obtenerProveedorPorId(id);
         proveedor.setCondicionesContrato(nuevasCondiciones);
         return proveedorRepository.save(proveedor);

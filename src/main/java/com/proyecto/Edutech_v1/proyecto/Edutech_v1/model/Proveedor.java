@@ -1,6 +1,11 @@
 package com.proyecto.Edutech_v1.proyecto.Edutech_v1.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "proveedores")
+@Table(name = "proveedor")
 @Data
 public class Proveedor {
 
@@ -31,8 +36,8 @@ public class Proveedor {
     @Column(name = "tiempo_respuesta_horas", nullable = false)
     private Integer tiempoRespuestaHoras;
 
-    @Column(name = "condiciones_contrato", nullable = false, precision = 5, scale = 2)
-    private Double condicionesContrato;
+    @Column(name = "condiciones_contrato", nullable = false, length = 500)
+    private String condicionesContrato;
 
 
     // Métodos específicos de negocio
@@ -40,12 +45,12 @@ public class Proveedor {
         this.tiempoRespuestaHoras = nuevoTiempo;
     }
 
-    public void renegociarContrato(Double nuevasCondiciones) {
+    public void renegociarContrato(String nuevasCondiciones) {
         this.condicionesContrato = nuevasCondiciones;
     }
 
     public String generarReporteDesempeno() {
-        return String.format("Proveedor: %s | Servicio: %s | Tiempo Respuesta: %d hrs | Condiciones: %.2f",
+        return String.format("Proveedor: %s | Servicio: %s | Tiempo Respuesta: %d hrs | Condiciones: %s",
                 nombre, servicio, tiempoRespuestaHoras, condicionesContrato);
     }
     

@@ -18,7 +18,7 @@ import com.proyecto.Edutech_v1.proyecto.Edutech_v1.model.Proveedor;
 import com.proyecto.Edutech_v1.proyecto.Edutech_v1.service.ProveedorService;
 
 @RestController
-@RequestMapping("/api/v1/proveedores")
+@RequestMapping("/api//proveedores")
 public class ProveedorController {
     @Autowired
     private ProveedorService proveedorService;
@@ -29,13 +29,13 @@ public class ProveedorController {
         return lista.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(lista);
     }
 
-    @PostMapping
+    @PostMapping("/guardar")
     public ResponseEntity<Proveedor> guardar(@RequestBody Proveedor proveedor) {
         Proveedor nuevo = proveedorService.crearProveedor(proveedor);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevo);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/buscar/{id}")
     public ResponseEntity<Proveedor> buscar(@PathVariable Long id) {
          try {
         Proveedor proveedor = proveedorService.obtenerProveedorPorId(id);
@@ -45,7 +45,7 @@ public class ProveedorController {
     }
 }
 
-    @PutMapping("/{id}")
+    @PutMapping("/actualizar/{id}")
     public ResponseEntity<Proveedor> actualizar(@PathVariable Long id, @RequestBody Proveedor proveedor) {
     try {
         Proveedor actualizado = proveedorService.actualizarProveedor(id, proveedor);
@@ -55,7 +55,7 @@ public class ProveedorController {
     }
 }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> eliminar(@PathVariable Long id) {
         try {
             proveedorService.obtenerProveedorPorId(id); // verifica existencia
