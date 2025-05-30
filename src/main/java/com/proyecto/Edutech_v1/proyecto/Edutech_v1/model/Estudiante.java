@@ -18,14 +18,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor // Anotación de Lombok para generar un constructor sin parámetros
 @AllArgsConstructor// Anotación de Lombok para generar un constructor con todos los parámetros
 
-public class Estudiante { // extende Usuario
+public class Estudiante extends Usuario { // extende Usuario
     // Clase que representa a un estudiante en el sistema, extendiendo la clase Usuario
 
     // Atributos de la clase Estudiante
     //Elimina el id y extiende el Usuario
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)// Generación automática del ID de estudiante
-    private Long idEstudiante;
 
     @Column(name = "metodo_pago", nullable = false)
     private String metodoPago;
