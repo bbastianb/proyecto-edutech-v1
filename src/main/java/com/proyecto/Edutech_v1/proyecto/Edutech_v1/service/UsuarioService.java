@@ -73,7 +73,11 @@ public class UsuarioService {
     }
 
     public Usuario registrarUsuario(Usuario usuario) {
-        // Aquí puedes agregar validaciones adicionales si lo deseas
         return usuarioRepository.save(usuario);
+    }
+
+    public Usuario findById(Long id) {
+        return usuarioRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado con ID: " + id));
     }
 }

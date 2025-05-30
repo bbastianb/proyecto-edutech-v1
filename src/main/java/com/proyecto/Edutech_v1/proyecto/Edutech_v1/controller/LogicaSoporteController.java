@@ -1,10 +1,20 @@
 package com.proyecto.Edutech_v1.proyecto.Edutech_v1.controller;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.proyecto.Edutech_v1.proyecto.Edutech_v1.model.LogicaSoporte;
 import com.proyecto.Edutech_v1.proyecto.Edutech_v1.service.LogicaSoporteService;
@@ -25,7 +35,7 @@ public class LogicaSoporteController {
         return ResponseEntity.ok(soportes);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/listar/{id}")
     public ResponseEntity<LogicaSoporte> obtenerPorId(@PathVariable Long id) {
         try {
             LogicaSoporte soporte = logicaSoporteService.obtenerPorId(id);
@@ -35,13 +45,13 @@ public class LogicaSoporteController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/crear")
     public ResponseEntity<LogicaSoporte> crear(@RequestBody LogicaSoporte soporte) {
         LogicaSoporte nuevoSoporte = logicaSoporteService.guardar(soporte);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevoSoporte);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/actualizar/{id}")
     public ResponseEntity<LogicaSoporte> actualizar(
             @PathVariable Long id, 
             @RequestBody LogicaSoporte soporte) {
@@ -60,7 +70,7 @@ public class LogicaSoporteController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         try {
             logicaSoporteService.eliminar(id);
@@ -68,19 +78,6 @@ public class LogicaSoporteController {
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
-    }
-
-    @GetMapping("/turno/{turno}")
-    public ResponseEntity<List<LogicaSoporte>> buscarPorTurno(@PathVariable String turno) {
-        List<LogicaSoporte> soportes = logicaSoporteService.buscarPorTurno(turno);
-        return ResponseEntity.ok(soportes);
-    }
-
-    @GetMapping("/incidentes/{minIncidentes}")
-    public ResponseEntity<List<LogicaSoporte>> buscarPorMinIncidentes(
-            @PathVariable Integer minIncidentes) {
-        List<LogicaSoporte> soportes = logicaSoporteService.buscarPorMinIncidentes(minIncidentes);
-        return ResponseEntity.ok(soportes);
     }
 
     @PatchMapping("/{id}/incidentes")

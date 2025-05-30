@@ -11,7 +11,7 @@ import com.proyecto.Edutech_v1.proyecto.Edutech_v1.model.Proveedor;
 @Repository
 public interface ProveedorRepository extends JpaRepository<Proveedor, Long> {
 
-    List<Proveedor> findByServicio(String servicio);
+    List<Proveedor> findByServicio(String servicio); 
 
     List<Proveedor> findByTiempoRespuestaHorasLessThanEqual(Integer maxHoras);
 

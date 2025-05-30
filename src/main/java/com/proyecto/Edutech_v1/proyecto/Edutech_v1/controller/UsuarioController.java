@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.proyecto.Edutech_v1.proyecto.Edutech_v1.model.Estudiante;
+import com.proyecto.Edutech_v1.proyecto.Edutech_v1.model.Instructor;
 import com.proyecto.Edutech_v1.proyecto.Edutech_v1.model.Usuario;
 import com.proyecto.Edutech_v1.proyecto.Edutech_v1.service.UsuarioService;
 
@@ -36,6 +37,7 @@ public class UsuarioController {
     }
 
     public static class LoginRequest {
+
         private String email;
         private String contraseña;
 
@@ -84,6 +86,7 @@ public class UsuarioController {
     @NoArgsConstructor
     @Data
     public static class PerfilRequest {
+
         private String nombre;
         private String apellido;
         private String telefono;
@@ -126,7 +129,15 @@ public class UsuarioController {
             return ResponseEntity.badRequest().body("Email y contraseña son obligatorios.");
         }
 
-        Usuario usuario = new Usuario();
+        Usuario usuario;
+        if ("estudiante".equalsIgnoreCase(request.getTipo())) {
+            usuario = new Estudiante();
+        } else if ("instructor".equalsIgnoreCase(request.getTipo())) {
+            usuario = new Instructor();
+        } else {
+            return ResponseEntity.badRequest().body("Tipo de usuario inexistente.");
+        }
+
         usuario.setNombre(request.getNombre());
         usuario.setApellido(request.getApellido());
         usuario.setEmail(request.getEmail());
@@ -140,11 +151,14 @@ public class UsuarioController {
     }
 
     @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class RegistroRequest {
         private String nombre;
         private String apellido;
         private String email;
         private String contraseña;
         private String telefono;
+        private String tipo; // "estudiante" o "instructor"
     }
 }
