@@ -1,5 +1,7 @@
 package com.proyecto.Edutech_v1.proyecto.Edutech_v1.model;
 
+
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,32 +17,24 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "instructor")
+@Table(name = "gerente") // Anotación de JPA para especificar el nombre de la tabla en la base de datos
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Instructor { //extends Usuario
+public class Gerente { //extiende Usuario
+    // Clase que representa a un gerente en el sistema, extendiendo la clase Usuario
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_instructor")
-    private Long idIntructor;
+    @Column(name = "id_gerente")
+    private Long idGerente;
 
-    @Column(name = "especialidad", nullable = false)
+    @Column(name = "area_especialidad", nullable = false)
     private String especialidad;
 
-    @Column(name = "calificacion_promedio")
-    private Double calificacionPromedio;
+    @Column(name = "cursos_gestionados")
+    private Double cursosGestionados;
 
-    @Column(name = "cursos_impartidos")
-    private Integer cursosImpartidos;
-
-    @Column(name = "nombres_cursos_impartidos")
-    private String nomCursosImpartidos;
-
-    @Column(name = "certificado")
-    private Boolean certificado;
-
-    @OneToMany(mappedBy = "instructor")
+    @OneToMany(mappedBy = "gerente")
     private List<Curso> cursos = new ArrayList<>();
-}
+   }

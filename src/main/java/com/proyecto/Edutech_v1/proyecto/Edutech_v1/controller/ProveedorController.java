@@ -18,7 +18,7 @@ import com.proyecto.Edutech_v1.proyecto.Edutech_v1.model.Proveedor;
 import com.proyecto.Edutech_v1.proyecto.Edutech_v1.service.ProveedorService;
 
 @RestController
-@RequestMapping("/api//proveedores")
+@RequestMapping("/api/proveedores")
 public class ProveedorController {
     @Autowired
     private ProveedorService proveedorService;
