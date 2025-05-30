@@ -93,12 +93,58 @@ public class UsuarioController {
 
     // Solicitar soporte
     @PostMapping("/{id}/soporte")
-    public ResponseEntity<String> solicitarSoporte(@PathVariable Long id, @RequestParam String mensaje) {
+    public ResponseEntity<?> solicitarSoporte(@PathVariable Long id, @RequestBody SoporteRequest request) {
         try {
-            String incidenciaId = usuarioService.solicitarSoporte(id, mensaje);
-            return ResponseEntity.ok(incidenciaId);
+            SoporteResponse respuesta = usuarioService.solicitarSoporteConRespuesta(
+                    id,
+                    request.getTitulo(),
+                    request.getMensaje());
+            return ResponseEntity.ok(respuesta);
         } catch (IllegalArgumentException | IllegalStateException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    @Data
+    public static class SoporteRequest {
+        private String titulo;
+        private String mensaje;
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class SoporteResponse {
+        private String titulo;
+        private String mensaje;
+        private String fechaEnvio;
+        private String numeroIncidencia;
+    }
+
+    @PostMapping("/registro")
+    public ResponseEntity<?> registrarUsuario(@RequestBody RegistroRequest request) {
+        if (request.getEmail() == null || request.getContraseña() == null) {
+            return ResponseEntity.badRequest().body("Email y contraseña son obligatorios.");
+        }
+
+        Usuario usuario = new Usuario();
+        usuario.setNombre(request.getNombre());
+        usuario.setApellido(request.getApellido());
+        usuario.setEmail(request.getEmail());
+        usuario.setContraseña(request.getContraseña());
+        usuario.setTelefono(request.getTelefono());
+        usuario.setFechaRegistro(new java.util.Date());
+        usuario.setActivo(true);
+
+        Usuario guardado = usuarioService.registrarUsuario(usuario);
+        return ResponseEntity.ok(guardado);
+    }
+
+    @Data
+    public static class RegistroRequest {
+        private String nombre;
+        private String apellido;
+        private String email;
+        private String contraseña;
+        private String telefono;
     }
 }
