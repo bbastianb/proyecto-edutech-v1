@@ -19,12 +19,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Instructor { //extends Usuario
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_instructor")
-    private Long idIntructor;
+public class Instructor extends Usuario { //extends Usuario
 
     @Column(name = "especialidad", nullable = false)
     private String especialidad;
