@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +35,7 @@ public class UsuarioController {
     }
 
     public static class LoginRequest {
+
         private String email;
         private String contraseña;
 
@@ -84,6 +84,7 @@ public class UsuarioController {
     @NoArgsConstructor
     @Data
     public static class PerfilRequest {
+
         private String nombre;
         private String apellido;
         private String telefono;

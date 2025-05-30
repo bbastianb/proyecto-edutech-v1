@@ -18,7 +18,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor // Anotación de Lombok para generar un constructor sin parámetros
 @AllArgsConstructor// Anotación de Lombok para generar un constructor con todos los parámetros
 
-public class Estudiante {
+public class Estudiante { // extende Usuario
+    // Clase que representa a un estudiante en el sistema, extendiendo la clase Usuario
 
     // Atributos de la clase Estudiante
     //Elimina el id y extiende el Usuario
@@ -42,7 +43,4 @@ public class Estudiante {
     @JoinColumn(name = "codigo_curso") // Relación muchos a uno con la entidad Curso
     private Curso curso;
 
-    //@ManyToOne // Relación muchos a uno con la entidad Usuario
-    //@JoinColumn(name = "id_usuario", nullable = false)
-    //private Usuario usuario; //Relación con la entidad Usuario, asumiendo que existe una clase Usuario
 }
