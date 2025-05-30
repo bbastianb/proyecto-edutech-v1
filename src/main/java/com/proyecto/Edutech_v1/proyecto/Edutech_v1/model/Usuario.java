@@ -19,7 +19,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "usuario")
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "rol", discriminatorType = jakarta.persistence.DiscriminatorType.STRING)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

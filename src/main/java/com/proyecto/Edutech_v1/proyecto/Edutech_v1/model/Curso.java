@@ -1,6 +1,5 @@
 package com.proyecto.Edutech_v1.proyecto.Edutech_v1.model;
 
-
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -43,8 +42,11 @@ public class Curso {
     @Column(name = "certificado_disponible", nullable = false)
     private boolean certificacionDisponibleCurso;
 
+    @Column(name = "resena_curso", nullable = true)
+    private String resenaCurso;
+
     @OneToMany(mappedBy = "curso")
-    private List<Estudiante> estudiantesInscritos = new java.util.ArrayList<>(); 
+    private List<Estudiante> estudiantesInscritos = new java.util.ArrayList<>();
     // Relación uno a muchos con la entidad Estudiante
-    
+
 }

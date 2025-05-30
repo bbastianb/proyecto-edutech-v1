@@ -1,10 +1,11 @@
 package com.proyecto.Edutech_v1.proyecto.Edutech_v1.controller;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -16,41 +17,88 @@ import org.springframework.web.bind.annotation.RestController;
 import com.proyecto.Edutech_v1.proyecto.Edutech_v1.model.Usuario;
 import com.proyecto.Edutech_v1.proyecto.Edutech_v1.service.UsuarioService;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @RestController
-@RequestMapping("/api/v1/usuarios")
+@RequestMapping("/api/usuarios")
 public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
 
-    @GetMapping
-    public List<Usuario> getAllUsuarios() {
-        return usuarioService.findAll();
+    // Iniciar sesión
+    @PostMapping("/login")
+    public ResponseEntity<String> iniciarSesion(@RequestBody LoginRequest loginRequest) {
+        String mensaje = usuarioService.iniciarSesion(loginRequest.getEmail(), loginRequest.getContraseña());
+        return ResponseEntity.ok(mensaje);
     }
 
-    @GetMapping("/{id}")
-    public Usuario getUsuarioById(@PathVariable Long id) {
-        return usuarioService.findById(id);
+    public static class LoginRequest {
+        private String email;
+        private String contraseña;
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
+        public String getContraseña() {
+            return contraseña;
+        }
+
+        public void setContraseña(String contraseña) {
+            this.contraseña = contraseña;
+        }
     }
 
-    @PostMapping
-    public Usuario createUsuario(@RequestBody Usuario usuario) {
-        return usuarioService.save(usuario);
+    // Actualizar perfil
+    @PutMapping("/{id}/perfil")
+    public ResponseEntity<?> actualizarPerfil(
+            @PathVariable Long id,
+            @RequestBody PerfilRequest perfilRequest) {
+        Usuario actualizado = usuarioService.actualizarPerfil(
+                id,
+                perfilRequest.getNombre(),
+                perfilRequest.getApellido(),
+                perfilRequest.getTelefono(),
+                perfilRequest.getEmail(),
+                perfilRequest.getContraseña());
+        if (actualizado == null) {
+            return ResponseEntity.notFound().build();
+        }
+        Map<String, Object> response = new HashMap<>();
+        response.put("id", actualizado.getId());
+        response.put("nombre", actualizado.getNombre());
+        response.put("apellido", actualizado.getApellido());
+        response.put("email", actualizado.getEmail());
+        response.put("telefono", actualizado.getTelefono());
+        return ResponseEntity.ok(response);
     }
 
-    @PutMapping("/{id}")
-    public Usuario updateUsuario(@PathVariable Long id, @RequestBody Usuario usuario) {
-        usuario.setId(id);
-        return usuarioService.save(usuario);
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Data
+    public static class PerfilRequest {
+        private String nombre;
+        private String apellido;
+        private String telefono;
+        private String contraseña;
+        private String email;
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteUsuario(@PathVariable Long id) {
-        usuarioService.delete(id);
-    }
-
-    @GetMapping("/buscar")
-    public Usuario getUsuarioByEmail(@RequestParam String email) {
-        return usuarioService.findByEmail(email);
+    // Solicitar soporte
+    @PostMapping("/{id}/soporte")
+    public ResponseEntity<String> solicitarSoporte(@PathVariable Long id, @RequestParam String mensaje) {
+        try {
+            String incidenciaId = usuarioService.solicitarSoporte(id, mensaje);
+            return ResponseEntity.ok(incidenciaId);
+        } catch (IllegalArgumentException | IllegalStateException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 }
