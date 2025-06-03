@@ -35,7 +35,7 @@ public class LogicaSoporteController {
         return ResponseEntity.ok(soportes);
     }
 
-    @GetMapping("/listar/{id}")
+    @GetMapping("/listar/{id}")//aprobado
     public ResponseEntity<LogicaSoporte> obtenerPorId(@PathVariable Long id) {
         try {
             LogicaSoporte soporte = logicaSoporteService.obtenerPorId(id);
@@ -45,13 +45,13 @@ public class LogicaSoporteController {
         }
     }
 
-    @PostMapping("/crear")
+    @PostMapping("/crear")//aprobado
     public ResponseEntity<LogicaSoporte> crear(@RequestBody LogicaSoporte soporte) {
         LogicaSoporte nuevoSoporte = logicaSoporteService.guardar(soporte);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevoSoporte);
     }
 
-    @PutMapping("/actualizar/{id}")
+    @PutMapping("/actualizar/{id}")//aprobado
     public ResponseEntity<LogicaSoporte> actualizar(
             @PathVariable Long id, 
             @RequestBody LogicaSoporte soporte) {
@@ -70,7 +70,7 @@ public class LogicaSoporteController {
         }
     }
 
-    @DeleteMapping("/eliminar/{id}")
+    @DeleteMapping("/eliminar/{id}")//aprobado
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         try {
             logicaSoporteService.eliminar(id);
@@ -80,7 +80,7 @@ public class LogicaSoporteController {
         }
     }
 
-    @PatchMapping("/{id}/incidentes")
+    @PatchMapping("/{id}/incidentes")//aun  no aprobado
     public ResponseEntity<LogicaSoporte> actualizarIncidentes(
             @PathVariable Long id,
             @RequestParam Integer nuevosIncidentes) {

@@ -29,13 +29,13 @@ public class ProveedorController {
         return lista.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(lista);
     }
 
-    @PostMapping("/guardar")
+    @PostMapping("/guardar")//aprobado
     public ResponseEntity<Proveedor> guardar(@RequestBody Proveedor proveedor) {
         Proveedor nuevo = proveedorService.crearProveedor(proveedor);
         return ResponseEntity.status(HttpStatus.CREATED).body(nuevo);
     }
 
-    @GetMapping("/buscar/{id}")
+    @GetMapping("/buscar/{id}")//aprobado
     public ResponseEntity<Proveedor> buscar(@PathVariable Long id) {
          try {
         Proveedor proveedor = proveedorService.obtenerProveedorPorId(id);
@@ -45,7 +45,7 @@ public class ProveedorController {
     }
 }
 
-    @PutMapping("/actualizar/{id}")
+    @PutMapping("/actualizar/{id}")//aprobado
     public ResponseEntity<Proveedor> actualizar(@PathVariable Long id, @RequestBody Proveedor proveedor) {
     try {
         Proveedor actualizado = proveedorService.actualizarProveedor(id, proveedor);
@@ -55,7 +55,7 @@ public class ProveedorController {
     }
 }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")//aprobado
     public ResponseEntity<?> eliminar(@PathVariable Long id) {
         try {
             proveedorService.obtenerProveedorPorId(id); // verifica existencia

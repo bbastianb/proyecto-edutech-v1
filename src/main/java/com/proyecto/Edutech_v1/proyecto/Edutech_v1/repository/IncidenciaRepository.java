@@ -22,10 +22,6 @@ public interface IncidenciaRepository extends JpaRepository<Incidencia, Long> {
     @Query("SELECT i FROM Incidencia i WHERE i.asignadoA.id = :soporteId")
     List<Incidencia> findBySoporteAsignado(Long soporteId);
     
-    // Buscar incidencias reportadas por un usuario específico
-    @Query("SELECT i FROM Incidencia i WHERE i.reportadoPor.id = :usuarioId")
-    List<Incidencia> findByUsuarioReportador(Long usuarioId);
-    
     // Contar incidencias por estado
     @Query("SELECT i.estado, COUNT(i) FROM Incidencia i GROUP BY i.estado")
     List<Object[]> countByEstado();

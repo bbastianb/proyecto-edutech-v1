@@ -28,11 +28,17 @@ public class EstudianteService {
     public Estudiante actualizarEstudiante(Long id, Estudiante datosEstudiante) {
         Estudiante estudiante = estudianteRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Estudiante no encontrado"));
+
+        estudiante.setNombre(datosEstudiante.getNombre());
+        estudiante.setApellido(datosEstudiante.getApellido());
+        estudiante.setEmail(datosEstudiante.getEmail());
+        estudiante.setContraseña(datosEstudiante.getContraseña());
+        estudiante.setTelefono(datosEstudiante.getTelefono());
         estudiante.setMetodoPago(datosEstudiante.getMetodoPago());
         estudiante.setCursoIncrito(datosEstudiante.getCursoIncrito());
-        estudiante.setUltimaInscripcion(datosEstudiante.getUltimaInscripcion());
         estudiante.setSaldoDisponible(datosEstudiante.getSaldoDisponible());
         // Actualiza otros campos si es necesario
+        // No se puede actualizar el ID, ya que es la clave primaria y la fecha de registro no debe cambiar
         return estudianteRepository.save(estudiante);
     }
 
@@ -46,4 +52,3 @@ public class EstudianteService {
         return estudiantes;
     }
 }
-

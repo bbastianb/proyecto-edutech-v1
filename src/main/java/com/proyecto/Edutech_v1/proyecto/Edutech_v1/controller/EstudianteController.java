@@ -1,7 +1,6 @@
 package com.proyecto.Edutech_v1.proyecto.Edutech_v1.controller;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -29,24 +28,20 @@ public class EstudianteController {
         // Llama al método obtenerEstudiantes del servicio para obtener todos los estudiantes
     }
 
-    @PostMapping("/guardar")
+    @PostMapping("/guardar")//aprobado
     public Estudiante guardarEstudiante(@RequestBody Estudiante estudiante) {
         return this.estudianteService.guardarEstudiante(estudiante);
         // Llama al método guardarEstudiante del servicio para guardar un estudiante
     }
 
-    @PutMapping("/actualizar/{id}")
+    @PutMapping("/actualizar/{id}")//aprobado
     public Estudiante actualizarEstudiante(@PathVariable Long id, @RequestBody Estudiante datosEstudiante) {
         return estudianteService.actualizarEstudiante(id, datosEstudiante);
     }
 
-    @DeleteMapping("/eliminar/{id}")
+    @DeleteMapping("/eliminar/{id}")//aprobado
     public void eliminarEstudiante(@PathVariable Long id) {
         estudianteService.eliminarEstudiante(id);
     }
 
-    @GetMapping("/allinfo")
-    public List<Estudiante> obtenerEstudiantesConInstructorYCursos() {
-        return estudianteService.obtenerEstudiantesConInstructorYCursos();
-    }
 }
