@@ -22,23 +22,25 @@ public class InstructorController {
     @Autowired
     private InstructorService instructorService;
 
-    @GetMapping("/con-cursos")
-    public List<Instructor> listarInstructoresConCursos() {
-        return instructorService.obtenerInstructoresConCursos();
-        // Llama al método del servicio para obtener la lista de instructores con sus cursos
+    @GetMapping
+    public List<Instructor> obtenerInstructores() {
+        return instructorService.obtenerTodosLosInstructores();
+        // Llama al método del servicio para obtener la lista de instructores
     }
 
-    @PostMapping("/agregar")
+
+
+    @PostMapping("/agregar")//aprobado
     public Instructor agregarInstructor(@RequestBody Instructor instructor) {
         return instructorService.guardarInstructor(instructor);
     }
 
-    @PutMapping("/actualizar/{id}")
+    @PutMapping("/actualizar/{id}") //aprobado
     public Instructor actualizarInstructor(@PathVariable Long id, @RequestBody Instructor datosInstructor) {
         return instructorService.actualizarInstructor(id, datosInstructor);
     }
 
-    @DeleteMapping("/eliminar/{id}")
+    @DeleteMapping("/eliminar/{id}")//aprobado
     public void eliminarInstructor(@PathVariable Long id) {
         instructorService.eliminarInstructor(id);
     }

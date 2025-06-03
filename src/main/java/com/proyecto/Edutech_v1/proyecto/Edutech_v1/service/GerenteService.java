@@ -14,6 +14,10 @@ public class GerenteService {
     @Autowired
     private GerenteRepository gerenteRepository;
 
+    public List<Gerente> obtenerTodosLosGerentes() {
+        return gerenteRepository.findAll();
+    }
+
     public Gerente guardarGerente(Gerente gerente) {
         return gerenteRepository.save(gerente);
     }
@@ -22,7 +26,18 @@ public class GerenteService {
         gerenteRepository.deleteById(id);
     }
 
-    public List<Gerente> obtenerGerentesConCursos() {
-        return gerenteRepository.findAll();
+    public Gerente actualizarGerente(Long id, Gerente datosGerente) {
+        Gerente gerente = gerenteRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Gerente no encontrado"));
+        gerente.setNombreGere(datosGerente.getNombreGere());
+        gerente.setApellidoGere(datosGerente.getApellidoGere());
+        gerente.setEmailGere(datosGerente.getEmailGere());
+        gerente.setContraseñaGere(datosGerente.getContraseñaGere());
+        gerente.setTelefonoGere(datosGerente.getTelefonoGere());
+        gerente.setEspecialidad(datosGerente.getEspecialidad());
+        gerente.setCursosGestionados(datosGerente.getCursosGestionados());
+        // No se puede actualizar el ID ni la fecha de registro
+        return gerenteRepository.save(gerente);
     }
+
 }

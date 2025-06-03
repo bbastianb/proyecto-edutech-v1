@@ -1,5 +1,9 @@
 package com.proyecto.Edutech_v1.proyecto.Edutech_v1.model;
 
+import java.util.Date;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,6 +12,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,11 +24,31 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor // Anotación de Lombok para generar un constructor sin parámetros
 @AllArgsConstructor// Anotación de Lombok para generar un constructor con todos los parámetros
 
-public class Estudiante extends Usuario { // extende Usuario
-    // Clase que representa a un estudiante en el sistema, extendiendo la clase Usuario
+public class Estudiante {
 
     // Atributos de la clase Estudiante
-    //Elimina el id y extiende el Usuario
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)// Generación automática del ID de estudiante
+    private Long idEstudiante;
+
+    @Column(name = "nombre_estudiante", nullable = false, length = 100)
+    private String nombre;
+
+    @Column(name = "apellidos_estudiante", nullable = false, length = 100)
+    private String apellido;
+
+    @Column(name = "email_estudiante", nullable = false, unique = true)
+    private String email;
+
+    @Column(name = "contraseña_estudiante", nullable = false, length = 100)
+    private String contraseña;
+
+    @Column(name = "telefono_estudiante", length = 20)
+    private String telefono;
+
+    @Column(name = "fecha_registro_estu", nullable = false)
+    @Temporal(TemporalType.DATE)
+    private Date fechaRegistro;
 
     @Column(name = "metodo_pago", nullable = false)
     private String metodoPago;
@@ -30,14 +56,12 @@ public class Estudiante extends Usuario { // extende Usuario
     @Column(name = "cursos_inscrito", nullable = false)
     private int cursoIncrito;
 
-    @Column(name = "ultima_inscripcion", nullable = true)
-    private String ultimaInscripcion;
-
     @Column(name = "saldo_disponible", nullable = true)
     private double saldoDisponible;
 
     @ManyToOne
     @JoinColumn(name = "codigo_curso") // Relación muchos a uno con la entidad Curso
+    @JsonBackReference("curso-estudiante") // Evita la serialización recursiva
     private Curso curso;
 
 }

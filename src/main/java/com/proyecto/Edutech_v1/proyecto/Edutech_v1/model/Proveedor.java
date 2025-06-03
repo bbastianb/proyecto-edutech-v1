@@ -54,6 +54,5 @@ public class Proveedor {
                 nombre, servicio, tiempoRespuestaHoras, condicionesContrato);
     }
     
-    //@ManyToMany(mappedBy = "proveedores")
-    //private List<LogicaSoporte> equiposSoporte;
+
 }

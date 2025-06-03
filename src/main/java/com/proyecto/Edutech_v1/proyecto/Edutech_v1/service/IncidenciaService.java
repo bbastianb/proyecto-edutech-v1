@@ -7,8 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.proyecto.Edutech_v1.proyecto.Edutech_v1.model.Incidencia;
+import com.proyecto.Edutech_v1.proyecto.Edutech_v1.model.Instructor;
 import com.proyecto.Edutech_v1.proyecto.Edutech_v1.model.LogicaSoporte;
-import com.proyecto.Edutech_v1.proyecto.Edutech_v1.model.Usuario;
 import com.proyecto.Edutech_v1.proyecto.Edutech_v1.repository.IncidenciaRepository;
 
 import jakarta.transaction.Transactional;
@@ -19,16 +19,16 @@ public class IncidenciaService {
 
     @Autowired
     private IncidenciaRepository incidenciaRepository;
-    
+
     @Autowired
     private LogicaSoporteService soporteService;
-    
-    @Autowired
-    private UsuarioService usuarioService;
 
-    public Incidencia crearIncidencia(Incidencia incidencia, Long usuarioId) {
-        Usuario reportador = usuarioService.findById(usuarioId);
-        incidencia.setReportadoPor(reportador);
+    @Autowired
+    private InstructorService instructorService;
+
+    public Incidencia crearIncidenciaPorInstructor(Incidencia incidencia, Long instructorId) {
+        Instructor instructor = instructorService.findById(instructorId);
+        incidencia.setReportadoPorInstructor(instructor);
         incidencia.setFechaReporte(new Date());
         incidencia.setEstado("NUEVO");
         return incidenciaRepository.save(incidencia);
@@ -37,29 +37,26 @@ public class IncidenciaService {
     public Incidencia asignarIncidencia(Long incidenciaId, Long soporteId) {
         Incidencia incidencia = obtenerIncidenciaPorId(incidenciaId);
         LogicaSoporte soporte = soporteService.obtenerPorId(soporteId);
-        
         incidencia.setAsignadoA(soporte);
         incidencia.setEstado("ASIGNADA");
         return incidenciaRepository.save(incidencia);
     }
 
-    public Incidencia actualizarEstado(Long id, String nuevoEstado, String comentarios) {
+    public Incidencia actualizarEstado(Long id, String nuevoEstado) {
         Incidencia incidencia = obtenerIncidenciaPorId(id);
         incidencia.setEstado(nuevoEstado);
-        
-        if ("RESUELTA".equals(nuevoEstado)) {
+
+        if ("RESUELTA".equalsIgnoreCase(nuevoEstado)) {
             incidencia.setFechaResolucion(new Date());
             if (incidencia.getAsignadoA() != null) {
-                soporteService.actualizarIncidentes(incidencia.getAsignadoA().getId(), 
-                    incidencia.getAsignadoA().getIncidentesResueltos() + 1);
+                soporteService.actualizarIncidentes(
+                        incidencia.getAsignadoA().getId(),
+                        incidencia.getAsignadoA().getIncidentesResueltos() + 1);
             }
+        } else {
+            incidencia.setFechaResolucion(null);
         }
-        
-        // Registrar histórico
-        String historico = String.format("[%s] Estado cambiado a %s - %s", 
-            new Date(), nuevoEstado, comentarios);
-        incidencia.setDescripcion(incidencia.getDescripcion() + "\n\n" + historico);
-        
+
         return incidenciaRepository.save(incidencia);
     }
 
@@ -67,28 +64,24 @@ public class IncidenciaService {
         return incidenciaRepository.findByEstado(estado);
     }
 
+
     public List<Incidencia> obtenerIncidenciasPorSoporte(Long soporteId) {
         return incidenciaRepository.findBySoporteAsignado(soporteId);
     }
 
+    // Método para buscar incidencias por prioridad
     public Incidencia obtenerIncidenciaPorId(Long id) {
         return incidenciaRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Incidencia no encontrada con ID: " + id));
+                .orElseThrow(() -> new RuntimeException("Incidencia no encontrada con ID: " + id));
     }
 
+    // Método para listar todas las incidencias
     public List<Incidencia> listarTodas() {
         return incidenciaRepository.findAll();
     }
 
+    // Método para eliminar incidencias por estado
     public void eliminarIncidencia(Long id) {
         incidenciaRepository.deleteById(id);
-    }
-
-    public List<Incidencia> obtenerIncidenciasResueltasEnPeriodo(Date inicio, Date fin) {
-        return incidenciaRepository.findByEstadoAndFechaResolucionBetween("RESUELTA", inicio, fin);
-    }
-
-    public List<Object[]> obtenerEstadisticasPorEstado() {
-        return incidenciaRepository.countByEstado();
     }
 }

@@ -19,10 +19,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Incidencia {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
+
     @Column(name = "Solicitudes", nullable = false)
     private String titulo;
     @Column(name = "Descripcion", nullable = false, length = 300)
@@ -35,10 +36,12 @@ public class Incidencia {
     private Date fechaReporte;
     @Column(name = "Fecha_Resolucion")
     private Date fechaResolucion;
-    
-    @ManyToOne
-    private Usuario reportadoPor;
-    
+
     @ManyToOne
     private LogicaSoporte asignadoA;
+    //Relaciona la incidencia con un instructor que la reporta
+
+    @ManyToOne
+    private Instructor reportadoPorInstructor;
+    //Relaciona la incidencia con un gerente que la reporta
 }

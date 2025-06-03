@@ -2,6 +2,9 @@ package com.proyecto.Edutech_v1.proyecto.Edutech_v1.model;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -48,16 +51,19 @@ public class Curso {
     private String resenaCurso;
 
     @OneToMany(mappedBy = "curso")
+    @JsonManagedReference("curso-estudiante")
     private List<Estudiante> estudiantesInscritos = new java.util.ArrayList<>();
     // Relación uno a muchos con la entidad Estudiante
 
     @ManyToOne
     @JoinColumn(name = "id_instructor")
+    @JsonBackReference("instructor-curso")
     private Instructor instructor;
     // Relación muchos a uno con la entidad Instructor
 
     @ManyToOne
     @JoinColumn(name = "id_gerente")
+    @JsonBackReference("gerente-curso")
     private Gerente gerente;
     // Relación muchos a uno con la entidad Gerente
 }
